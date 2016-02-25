@@ -1,0 +1,68 @@
+package controllers
+
+
+import models.forms
+import play.api._
+import play.api.cache.Cached
+import play.api.mvc._
+import play.twirl.api.Html
+import play.api.data._
+import play.api.data.Forms._
+import models.forms._
+import scala.concurrent.Future
+import models.dbConnect._
+
+
+object Application extends Controller {
+
+  def index = Action { request =>
+      request.session.get("connected").map { user =>
+        Redirect("/login")
+      }.getOrElse {
+        Ok(views.html.index())
+      }
+  }
+
+  def regNewUser = Action {
+    Ok(views.html.reg())
+  }
+
+
+  def addNewUserToDB = Action(parse.form(forms.userForm, onErrors = (formWithErrors: Form[User]) => {BadRequest("Error")})) {
+    implicit request =>
+      val userData = request.body
+      addToUser(userData)
+      Ok(userData.toString)
+  }
+
+  def loginUser = Action(parse.form(forms.loginUserForm, onErrors = (formWithErrors: Form[LoginUser]) => {BadRequest("Error")})) {
+    implicit request =>
+      val userLoginData = request.body
+      if(isUserReg(userLoginData)) {
+        val (idd,name,_,mail,_,numb,city) = getInfoAboutUser(userLoginData).take(1).toArray.apply(0)
+        Ok(views.html.profile(name,mail,numb,city)).withSession("connected" -> idd.toString)
+
+
+      }
+      else Ok(views.html.index())
+
+  }
+
+  def logout = Action {
+      Redirect("/").withNewSession
+
+  }
+
+  def newPageUser = Action {
+    request =>
+      request.session.get("connected") match
+      {
+        case Some(idd) =>
+          {
+            val (_,name,_,mail,_,numb,city) = getInfoAboutUserFromID(idd.toInt).take(1).toArray.apply(0)
+            Ok(views.html.profile(name,mail,numb,city))
+          }
+        case None => Redirect("/").withNewSession
+      }
+  }
+}

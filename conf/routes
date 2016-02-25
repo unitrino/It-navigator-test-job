@@ -1,0 +1,8 @@
+GET    /                                    controllers.Application.index
+POST   /save_data                           controllers.Application.save
+
+GET     /assets/*file                       controllers.Assets.at(path="/public", file)
+
+GET     /req                                controllers.Application.send_req
+
+GET     /send                                controllers.Application.client_send

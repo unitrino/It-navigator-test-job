@@ -1,0 +1,51 @@
+@(jsBody: String)
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/style.css")">
+<script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var data2 = @Html(jsBody)
+</script>
+<script type="text/javascript" src="@routes.Assets.at("javascripts/graph_script.js")"></script>
+<html>
+    <head>
+        <title>TEST</title>
+    </head>
+    <body>
+
+        <div id="elemdiv" style="width:100%;height: 380px;">
+        </div>
+	   	<div id = "chart_div">
+        </div>
+        <br>
+        <p>Slowest pages</p>
+    <table id="table_slow_value" class="table table-condensed">
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Latency (in ms)</th>
+      </tr>
+    </thead>
+        <tbody>
+        </tbody>
+        </table>
+            <br>
+
+        <p>All pages</p>
+        <table id="table_all_value" class="table table-condensed">
+        <thead>
+          <tr>
+            <th>URL</th>
+            <th>Latency (in ms)</th>
+          </tr>
+        </thead>
+            <tbody>
+            </tbody>
+            </table>
+        <br>
+    </body>
+</html>

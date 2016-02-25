@@ -1,0 +1,34 @@
+@(title: Array[(Int, String, String, String, String, String, String)])
+<table id = "main_table">
+    @for((id,first,middle,last,tel_type,tel,comment) <- title) {
+    <tr id = "row@id">
+        <td name = "id">@id</td>
+        <td name = "first_name"><input type = "text" value = "@first" readonly></td>
+        <td name = "middle_name"><input type = "text" value = "@middle" readonly></td>
+        <td name = "last_name"><input type = "text" value = "@last" readonly></td>
+        <td><input id = "number" type = "text" value = "@tel" onkeypress='return event.charCode >= 48 && event.charCode <= 57' readonly></td>
+        <td>
+            <select  size="1" id = "numb_type" disabled>
+                @if(tel_type == "mobile") {
+                <option selected value = "mobile">mobile</option>
+                } else {
+                <option value = "mobile">mobile</option>
+                }
+
+                @if(tel_type == "home") {
+                <option selected value = "home">home</option>
+                } else {
+                <option value = "home">home</option>
+                }
+
+                @if(tel_type == "no_info") {
+                <option selected value = "no_info">no_info</option>
+                } else {
+                <option value = "no_info">no_info</option>
+                }
+            </select>
+        </td>
+        <td><input id = "comment" type = "text" value = "@comment" readonly></td>
+    </tr>
+    }
+</table>
